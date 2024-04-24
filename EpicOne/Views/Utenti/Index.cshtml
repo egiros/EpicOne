@@ -1,0 +1,49 @@
+﻿@model IEnumerable<EpicOne.Models.Utenti>
+
+@{
+    ViewBag.Title = "Utenti";
+}
+
+<h2 class="text-center display-4 mb-5 fw-bold" style="margin-top:100px" ;>Gestione Utenti</h2>
+
+<div class="mb-3">
+    @if (User.IsInRole("Admin"))
+    {
+        @Html.ActionLink("+ Aggiungi Nuovo Utente", "Create", null, new { @class = "btn btn-success" })
+    }
+</div>
+
+<div class="container mt-5">
+    <div class="row">
+        @foreach (var item in Model)
+        {
+            <div class="col-md-4 mb-4">
+                <div class="card h-100 shadow">
+                    <div class="card-body">
+                        <h4 class="card-title text-center mt-2 mb-4"><b>@item.Nome @item.Cognome</b></h4>
+                        <p class="card-text"><b>Email: </b>@item.Email</p>
+                        <p class="card-text"><b>Indirizzo: </b>@item.Indirizzo</p>
+                        <p class="card-text"><b>Città: </b>@item.Città</p>
+                        <p class="card-text"><b>Codice Postale: </b>@item.CodicePostale</p>
+                        <p class="card-text"><b>Paese: </b>@item.Paese</p>
+                        <p class="card-text"><b>Telefono: </b>@item.NumeroDiTelefono</p>
+                        <p class="card-text"><b>Data di Registrazione: </b>@item.DataRegistrazione.ToString("dd/MM/yyyy")</p>
+                        <p class="card-text"><b>Data di Nascita: </b>@item.DataDiNascita</p>
+
+                        <div class="d-flex justify-content-between">
+                            @if (item.IsAdmin == false)
+                            {
+                                @Html.ActionLink("Rendi Amministratore", "isAdmin", new { id = item.UserID }, new { @class = "btn btn-success" })
+                            }
+                            else
+                            {
+                                @Html.ActionLink("Retrocedi a Utente", "isAdmin", new { id = item.UserID }, new { @class = "btn btn-warning" })
+                            }
+                            @Html.ActionLink("Elimina", "Delete", new { id = item.UserID }, new { @class = "btn btn-danger" })
+                        </div>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+</div>

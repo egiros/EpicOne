@@ -1,0 +1,219 @@
+﻿@model IEnumerable<EpicOne.Models.Eventi>
+
+@{
+    ViewBag.Title = "Index";
+    var nomeCategoria = TempData["NomeCategoria"] as string;
+}
+
+<h2 class="text-center display-4 mb-5 fw-bold" style="margin-top:100px" ; id="eventi-title">Tutti Gli Eventi</h2>
+<h3 class="text-center display-4 mb-5 fw-bold">@nomeCategoria</h3>
+
+<div id="eventi-btn">
+    @if (User.IsInRole("Admin"))
+    {
+        @Html.ActionLink("+ Aggiungi un Evento", "Create", null, new { @class = "btn btn-success" })
+    }
+</div>
+
+
+<div class="col-12 offset-md-8 col-md-4">
+    <div class="d-flex justify-content-end mb-3">
+
+        <select id="orderBy" class="form-select rounded-0 me-2">
+            <option selected>Ordina per...</option>
+            <option value="Titolo">Nome "A-Z"</option>
+            <option value="DataCrescente">Dal meno recente</option>
+            <option value="DataDecrescente">Dal più recente</option>
+            <!-- opzioni di ordinamento -->
+        </select>
+        <select id="limit" class="form-select rounded-0 me-2">
+            <option selected>Mostra...</option>
+            <option value="5">5 elementi</option>
+            <option value="10">10 elementi</option>
+            <option value="25">25 elementi</option>
+            <option value="">Tutti</option>
+            <!-- opzioni di limitazione -->
+        </select>
+
+        <button id="btnGrid" class="btn btn-outline-dark rounded-0 active px-2 py-1"><i class="bi bi-grid"></i></button>
+        <button id="btnList" class="btn btn-outline-dark rounded-0 px-2 py-1"><i class="bi bi-list-ul"></i></button>
+    </div>
+</div>
+
+
+
+
+<div class="row g-3 mb-4">
+    @foreach (var item in Model)
+    {
+
+        <div id="card-@item.EventoID" class="col-sm-6 col-md-4 col-lg-4 col-xl-3 card-layout grid-card">
+            <a href="@Url.Action("Details", "Eventi", new { id = item.EventoID })" class="text-decoration-none text-black card-hover-img">
+                <div>
+                    <img src="@item.Immagine" alt="Immagine evento" class="img-fluid rounded card-img-top d-block shadow">
+                    <div class="mx-1 mt-3 mb-4">
+                        <h5 class="fw-bold text-truncate">@item.Titolo</h5>
+                        <h6 class="card-title text-truncate"><i class="bi bi-geo-alt-fill me-1"></i>@item.Luoghi.Nome - @item.Luoghi.Città</h6>
+                        <p class="card-text"><i class="bi bi-calendar-fill me-1"></i>@item.DataOra.ToString("dddd dd/MM/yyyy HH:mm")</p>
+                    </div>
+                </div>
+            </a>
+        </div>
+
+
+        <div id="list-card-@item.EventoID" class="card-layout list-card d-none">
+            <a href="@Url.Action("Details", "Eventi", new { id = item.EventoID })" class="text-decoration-none text-black card-hover-img d-flex align-items-start">
+                <div class="d-none d-md-block offset-md-1 col-md-2 p-3">
+                    <img src="@item.Immagine" alt="Immagine evento" class="img-fluid rounded shadow">
+                </div>
+                <div class="col-12 col-md-8 p-3 align-items-center">
+                    <h3 class="fw-bold text-truncate text-uppercase">@item.Titolo</h3>
+                    <h5 class="card-title text-truncate"><i class="bi bi-geo-alt-fill me-1"></i>@item.Luoghi.Nome - @item.Luoghi.Città</h5>
+                    <p class="card-text"><i class="bi bi-calendar-fill me-2"></i>@item.DataOra.ToString("dddd dd/MM/yyyy alle ore HH:mm")</p>
+                </div>
+            </a>
+            <hr />
+        </div>
+
+
+    }
+</div>
+
+
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+<script>
+  $(document).ready(function () {
+    var url = '@Url.Action("Index", "Eventi")';
+
+    // Gestisce il cambio di vista tra griglia e lista
+    $('#btnGrid').click(function () {
+        $(this).addClass('active');
+        $('#btnList').removeClass('active');
+        $('.list-card').addClass('d-none');
+        $('.grid-card').removeClass('d-none');
+    });
+
+    $('#btnList').click(function () {
+        $(this).addClass('active');
+        $('#btnGrid').removeClass('active');
+        $('.grid-card').addClass('d-none');
+        $('.list-card').removeClass('d-none');
+    });
+
+    // Gestisce il cambiamento delle opzioni di ordinamento e limitazione
+
+        $('#orderBy, #limit').change(function () {
+            var orderBy = $('#orderBy').val();
+            var limit = $('#limit').val();
+            if (limit === "") {
+                limit = -1;
+            }
+            if (isNaN(limit) || limit == "") {
+                limit = null;
+            }
+
+            $.ajax({
+                url: url,
+                type: 'GET',
+                data: { orderBy: orderBy, limit: limit, _: new Date().getTime() },
+                success: function (data) {
+
+                    var html = '';
+                    $.each(data, function (index, item) {
+
+                        html += '<div id="card-' + item.EventoID + '" class="col-sm-6 col-md-4 col-lg-4 col-xl-3 card-layout grid-card">';
+                        html += '<a href="/Eventi/Details/' + item.EventoID + '" class="text-decoration-none text-black card-hover-img">';
+                        html += '<div><img src="' + item.Immagine + '" alt="Immagine evento" class="img-fluid rounded card-img-top d-block shadow">';
+                        html += '<div class="mx-1 mt-3 mb-4"><h5 class="fw-bold text-truncate">' + item.Titolo + '</h5>';
+                        html += '<h6 class="card-title text-truncate"><i class="bi bi-geo-alt-fill me-1"></i>' + item.LuogoNome + ' - ' + item.LuogoCitta + '</h6>';
+                        html += '<p class="card-text"><i class="bi bi-calendar-fill me-1"></i>' + item.DataOra + '</p></div></div></a></div>';
+
+
+                        html += '<div id="list-card-' + item.EventoID + '" class="card-layout list-card d-none">';
+                        html += '<a href="/Eventi/Details/' + item.EventoID + '" class="text-decoration-none text-black card-hover-img d-flex align-items-start">';
+                        html += '<div class="d-none d-md-block offset-md-1 col-md-2 p-3">';
+                        html += '<img src="' + item.Immagine + '" alt="Immagine evento" class="img-fluid rounded shadow"></div>';
+                        html += '<div class="col-12 col-md-8 p-3 align-items-center">';
+                        html += '<h3 class="fw-bold text-truncate text-uppercase">' + item.Titolo + '</h3>';
+                        html += '<h5 class="card-title text-truncate"><i class="bi bi-geo-alt-fill me-1"></i>' + item.LuogoNome + ' - ' + item.LuogoCitta + '</h5>';
+                        html += '<p class="card-text"><i class="bi bi-calendar-fill me-2"></i>' + item.DataOra + '</p></div></a><hr /></div>';
+
+                    });
+                    $('.row.g-3.mb-4').html(html);
+
+                    // Controlla quale opzione di visualizzazione è attualmente selezionata
+                    if ($('#btnList').hasClass('active')) {
+                        // Se la vista a lista è selezionata, nascondi la vista a griglia e mostra la vista a lista
+                        $('.grid-card').addClass('d-none');
+                        $('.list-card').removeClass('d-none');
+                    } else {
+                        // Altrimenti, mostra la vista a griglia e nascondi la vista a lista
+                        $('.list-card').addClass('d-none');
+                        $('.grid-card').removeClass('d-none');
+                    }
+
+                },
+                error: function (error) {
+                    console.error("Errore durante il caricamento dei dati: ", error);
+                }
+            });
+        });
+    });
+</script>
+
+
+@* ------------------------------ TOASTS --------------------------------- *@
+
+@if (TempData["CreateMess"] != null)
+{
+    <script src="~/Scripts/jquery-3.4.1.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/js/toastr.min.js"></script>
+    <script type="text/javascript">
+  toastr.options = {
+      "closeButton": true,
+      "debug": false,
+      "newestOnTop": false,
+      "progressBar": true,
+      "positionClass": "toast-custom-position",
+      "preventDuplicates": false,
+      "onclick": null,
+      "showDuration": "300",
+      "hideDuration": "1000",
+      "timeOut": "5000",
+      "extendedTimeOut": "1000",
+      "showEasing": "swing",
+      "hideEasing": "linear",
+      "showMethod": "fadeIn",
+      "hideMethod": "fadeOut"
+  }
+  toastr.success('@TempData["CreateMess"]')
+    </script>
+}
+
+@if (TempData["CartMessage"] != null)
+{
+    <script src="~/Scripts/jquery-3.4.1.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/js/toastr.min.js"></script>
+    <script type="text/javascript">
+  toastr.options = {
+      "closeButton": true,
+      "debug": false,
+      "newestOnTop": false,
+      "progressBar": true,
+      "positionClass": "toast-custom-position",
+      "preventDuplicates": false,
+      "onclick": null,
+      "showDuration": "300",
+      "hideDuration": "1000",
+      "timeOut": "5000",
+      "extendedTimeOut": "1000",
+      "showEasing": "swing",
+      "hideEasing": "linear",
+      "showMethod": "fadeIn",
+      "hideMethod": "fadeOut"
+  }
+  toastr.warning('@TempData["CartMessage"]')
+    </script>
+}

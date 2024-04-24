@@ -1,0 +1,56 @@
+﻿@model EpicOne.Models.Ordini
+
+@{
+    ViewBag.Title = "Delete";
+}
+
+<h2 class="mb-5 fw-bold" style="margin-top:100px" ;>Elimina Ordine</h2>
+
+<h3>Sei davvero sicuro di volerlo eliminare?</h3>
+<div>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Utenti.Nome)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Utenti.Nome)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.DataOraOrdine)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.DataOraOrdine)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Totale)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Totale)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.isEvaso)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.isEvaso)
+        </dd>
+
+    </dl>
+
+    @using (Html.BeginForm())
+    {
+        @Html.AntiForgeryToken()
+
+        <div class="form-actions no-color">
+            <input type="submit" value="Elimina" class="btn btn-danger" /> |
+            @Html.ActionLink("Indietro", "Index", "", new { @class = "btn btn-outline-warning" })
+        </div>
+    }
+</div>

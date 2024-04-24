@@ -1,0 +1,65 @@
+﻿@model IEnumerable<EpicOne.Models.Luoghi>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2 class="text-center display-4 mb-5 fw-bold" style="margin-top:100px" ;>Luoghi</h2>
+
+@if (User.IsInRole("Admin"))
+{
+    <p>
+        @Html.ActionLink("Aggiungi Nuovo Luogo", "Create", "", new { @class = "btn btn-success" })
+    </p>
+}
+<table class="table table-responsive table-striped table-bordered w-100">
+    <tr class="h-100">
+        <th>
+            @Html.DisplayNameFor(model => model.Città)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Nome)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Indirizzo)
+        </th>
+
+        <th>
+            @Html.DisplayNameFor(model => model.Capacità) (Posti)
+        </th>
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Città)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Nome)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Indirizzo)
+            </td>
+
+            <td>
+                @Html.DisplayFor(modelItem => item.Capacità)
+            </td>
+            <td class="text-center">
+                @Html.ActionLink("Visualizza", "Index", "Eventi", new { luogoId = item.LuogoID }, new { @class = "btn btn-outline-warning" })
+            </td>
+
+            @if (User.IsInRole("Admin"))
+            {
+
+                <td>
+                    @Html.ActionLink("Modifica", "Edit", new { id = item.LuogoID }, new { @class = "btn btn-outline-warning " }) |
+                    @*@Html.ActionLink("Details", "Details", new { id = item.LuogoID }) |*@
+                    @Html.ActionLink("X", "Delete", new { id = item.LuogoID }, new { @class = "btn btn-outline-danger" })
+                </td>
+            }
+        </tr>
+    }
+
+</table>

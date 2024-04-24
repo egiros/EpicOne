@@ -1,0 +1,68 @@
+﻿@model IEnumerable<EpicOne.Models.Categorie>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2 class="text-center display-4 mb-5 fw-bold" id="Cat-btn" style="margin-top:100px" ;>Categorie</h2>
+
+@if (User.IsInRole("Admin"))
+{
+    <p id="cat-title">
+        @Html.ActionLink("Aggiungi Nuova Categoria", "Create", "", new { @class = "btn btn-success" })
+    </p>
+}
+
+
+
+<div class="row">
+    @foreach (var categoria in Model)
+    {
+        <div class="col-12">
+            <div class="card border-dark mb-4">
+                <div class="card-header bg-dark navbar-transparent text-bg-dark d-flex justify-content-between align-items-center text-truncate">
+                    <button class="btn btn-outline-dark text-bg-dark d-flex justify-content-between align-items-center" type="button" data-bs-toggle="collapse" data-bs-target="#categoria-@categoria.CategoriaID" aria-expanded="false" aria-controls="categoria-@categoria.CategoriaID">
+                        <i class="bi bi-arrow-down-up fs-4 fw-bold"></i><h3 class="mb-0 ms-2">@categoria.Nome</h3>
+                    </button>
+                    <h5 class="d-none d-md-block me-3">@categoria.Descrizione</h5>
+                    <div class="d-none d-sm-block">
+                        @Html.ActionLink("Visualizza Categoria", "Index", "Eventi", new { categoriaId = categoria.CategoriaID }, new { @class = "btn btn-outline-dark text-bg-dark" })
+
+                    </div>
+
+                </div>
+                <div class="collapse @(ViewBag.IsHome != null && ViewBag.IsHome ? "show" : "")" id="categoria-@categoria.CategoriaID">
+                    @foreach (var evento in categoria.Eventi)
+                    {
+                        <div id="list-card-@evento.EventoID" class="card-layout">
+                            <a href="@Url.Action("Details", "Eventi", new { id = evento.EventoID })" class="text-decoration-none text-black card-hover-img d-flex align-items-start">
+                                <div class="d-none d-md-block offset-md-1 col-md-2 p-3">
+                                    <img src="@evento.Immagine" alt="Immagine evento" class="img-fluid rounded shadow">
+                                </div>
+                                <div class="col-12 col-md-8 p-3 align-items-center">
+                                    <h3 class="fw-bold text-truncate text-uppercase">@evento.Titolo</h3>
+                                    <h5 class="card-title text-truncate"><i class="bi bi-geo-alt-fill me-1"></i>@evento.Luoghi.Nome - @evento.Luoghi.Città</h5>
+                                    <p class="card-text"><i class="bi bi-calendar-fill me-2"></i>@evento.DataOra.ToString("dddd dd/MM/yyyy alle ore HH:mm")</p>
+                                </div>
+                            </a>
+                            <hr class="my-3" />
+                        </div>
+
+                    }
+                </div>
+
+            </div>
+        </div>
+    }
+</div>
+
+
+
+
+<script>
+     $(document).ready(function () {
+         $("#cat-title").hide();
+     });
+</script>
+
+

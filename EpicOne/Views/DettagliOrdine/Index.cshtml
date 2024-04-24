@@ -1,0 +1,71 @@
+﻿@model IEnumerable<EpicOne.Models.DettagliOrdine>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2 class="text-center display-4 mb-5 fw-bold" style="margin-top:100px" ;>Dettagli Ordine</h2>
+
+<table class="table table-responsive table-striped table-bordered w-100">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Biglietti.Stato)
+        </th>
+        <th>
+            Numero Ordine
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Quantità)
+        </th>
+        <th>
+            Prezzo biglietto
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Note)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Biglietti.Eventi.Utenti.Indirizzo)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Biglietti.Eventi.Titolo)
+        </th>
+        <th>
+            Luogo
+        </th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.Biglietti.Stato)
+        </td>
+        <td>
+            @item.Biglietti.EventoID@item.BigliettoID@item.Biglietti.DataOraAcquisto.ToString("yyyyMMdd")
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Quantità)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.PrezzoPerUnità)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Note)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Biglietti.Utenti.Indirizzo) - @item.Biglietti.Utenti.CodicePostale - @item.Biglietti.Utenti.Città
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Biglietti.Eventi.Titolo) <!-- Titolo dell'evento -->
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Biglietti.Eventi.Luoghi.Nome) <!-- Luogo dell'evento -->
+        </td>
+        @*<td>
+            @Html.ActionLink("Edit", "Edit", new { id = item.DettaglioOrdineID }) |
+            @Html.ActionLink("Details", "Details", new { id = item.DettaglioOrdineID }) |
+            @Html.ActionLink("Delete", "Delete", new { id = item.DettaglioOrdineID })
+        </td>*@
+    </tr>
+}
+
+</table>

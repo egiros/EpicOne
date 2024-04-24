@@ -1,0 +1,255 @@
+﻿/* Set padding to keep content from hitting the edges */
+.body-content {
+    margin-top: 15px;
+    padding-left: 15px;
+    padding-right: 15px;
+}
+
+
+/* Override the default bootstrap behavior where horizontal description lists 
+   will truncate terms that are too long to fit in the left column 
+*/
+.dl-horizontal dt {
+    white-space: normal;
+}
+
+/* Set width on the form input elements since they're 100% wide by default */
+input,
+select,
+textarea {
+    max-width: 380px;
+}
+
+body {
+    font-family: 'Roboto', sans-serif;
+    font-size: 16px;
+    line-height: 1.42857143;
+    background-color: #F9FAFB;
+    /*background-color: #eddf93;*/
+    /*background: rgb(249,194,60);
+    background: linear-gradient(90deg, rgba(249,194,60,1) 0%, rgba(249,250,251,1) 10%, rgba(249,250,251,1) 90%, rgba(249,194,60,1) 100%);*/
+}
+
+
+.roboto-regular {
+    font-family: "Roboto", sans-serif;
+    font-weight: 400;
+    font-style: normal;
+}
+
+.card-hover-img img {
+    transition: transform 0.2s ease-in-out;
+}
+
+.card-hover-img:hover img {
+    transform: scale(1.03);
+}
+
+
+
+.containerplus > *:not(#no-container) {
+    width: 100%;
+    padding-right: 15px;
+    padding-left: 15px;
+    margin-right: auto;
+    margin-left: auto;
+}
+
+@media (min-width: 576px) {
+    .containerplus {
+        max-width: 540px;
+    }
+}
+
+@media (min-width: 768px) {
+    .containerplus {
+        max-width: 720px;
+    }
+}
+
+@media (min-width: 992px) {
+    .containerplus {
+        max-width: 960px;
+    }
+}
+
+@media (min-width: 1200px) {
+    .containerplus {
+        max-width: 1140px;
+    }
+}
+
+
+/*
+.bi {
+    padding: 20px;
+    font-size: 30px;
+    width: 50px;
+    text-align: center;
+    text-decoration: none;
+    margin: 5px 2px;
+    border-radius: 50%;
+}
+
+    .bi:hover {
+        opacity: 0.7;
+    }
+
+.bi-facebook {
+    background: #3B5998;
+    color: white;
+}
+
+.bi-instagram {
+    background: #125688;
+    color: white;
+}
+
+.bi-twitter {
+    background: #55ACEE;
+    color: white;
+}
+
+.bi-tiktok {
+    background: #000000;
+    color: white;
+}
+
+.bi-youtube {
+    background: #bb0000;
+    color: white;
+}
+
+.bi-linkedin {
+    background: #007bb5;
+    color: white;
+}*/
+.carousel-container {
+    position: relative;
+    overflow-x: hidden;
+    overflow-y: visible;
+    width: 100%;
+}
+
+.carousel {
+    display: flex;
+    animation: scroll 250s linear infinite;
+}
+
+    .carousel:hover {
+        animation-play-state: paused;
+    }
+
+.logo {
+    flex: 0 0 auto;
+    width: calc(100% / 3 - 20px); /* 3 colonne come default, con un gap di 20px */
+    margin-left: 0px;
+    object-fit: cover;
+}
+
+    .logo:first-child {
+        margin-left: 0;
+    }
+
+    .logo img {
+        width: 100%;
+        
+        transition: transform 0.1s ease-in-out;
+    }
+
+    .logo:hover img {
+        transform: scale(1.1);
+        filter: blur(5px);
+    }
+
+
+
+
+@keyframes scroll {
+    0% {
+        transform: translateX(0);
+    }
+
+    100% {
+        transform: translateX(-600%); /* il duplicato è metà della larghezza totale */
+    }
+}
+
+/* Media queries per risposte */
+@media (min-width: 700px) {
+    .logo {
+        width: calc(100% / 3); /*  6 colonne su schermi più grandi */   
+
+    }
+}
+
+.image-container {
+    position: relative;
+}
+
+    .image-container .overlay {
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        height: 100%;
+        width: 100%;
+        
+        transition: transform 0.1s ease-in-out;
+    }
+
+    .image-container:hover .overlay {
+        background: linear-gradient(to top, rgba(0, 0, 0, 1), rgba(0, 0, 0, 0));
+        transform: scale(1.1);
+    }
+
+    .image-container .text {
+        color: white;
+        position: absolute;
+        bottom: -100%; 
+        left: 50%;
+        transform: translateX(-50%);
+        text-align: center;
+        transition: bottom 0.3s ease; 
+        visibility: hidden;
+    }
+
+    .image-container:hover .text {
+        bottom: 10%;
+        visibility: visible;
+    }
+
+.navbar-transparent {
+    background-color: rgba(0, 0, 0, 0.9) !important;
+}
+
+.nav2:hover {
+    /*background-color: rgba(52, 58, 64, 0.9) !important;*/
+    background-color: rgba(0, 0, 0, 0.9) !important;
+    border-top: 1.5px solid #6c757d;
+    border-bottom: 1.5px solid #6c757d;
+    transition: border-top 0.5s ease-in-out;
+    transition: border-bottom 0.5s ease-in-out;
+    transition: background-color 0.5s ease-in-out;
+}
+
+
+
+
+/* Toast */
+
+.toast-custom-position {
+    top: 70px; /* Regola l'altezza */
+    right: 12px;
+    position: absolute;
+}
+
+
+@media print {
+    .col, .col-4, .col-5, .col-3 {
+        width: 100%;
+        float: none;
+        display: block;
+    }
+}

@@ -1,0 +1,35 @@
+﻿
+@model List<EpicOne.Models.Eventi>
+
+@if (Model != null && Model.Any())
+
+{
+    <div class="row">
+        @foreach (var evento in Model)
+        {
+        <div class="mb-3 row">
+            <a href="@Url.Action("Details", "Eventi", new { id = evento.EventoID })" class="text-decoration-none text-black card-hover-img d-flex">
+
+                <div class="offset-md-1 col-md-2 d-none d-md-block">
+                    <img src="@evento.Immagine" alt="Immagine evento" class="img-fluid rounded shadow">
+                </div>
+
+                <div class="col-12 col-md-8 ms-3">
+                    <h5 class="fw-bold text-truncate mb-3">@evento.Titolo</h5>
+                    <h6 class="card-title text-truncate mb-1"><i class="bi bi-geo-alt-fill me-1"></i>@evento.Luoghi.Nome - @evento.Luoghi.Città</h6>
+                    <p class="card-text text-uppercase"><i class="bi bi-calendar-fill me-1"></i>@evento.DataOra.ToString("dddd dd/MM/yyyy HH:mm")</p>
+                </div>
+            </a>
+        </div>
+        }
+    </div>
+}
+else
+{
+    <div class="text-center">
+        <h3 class="fw-bold">...OPS...</h3>
+        <h4>Siamo Spiacenti</h4>
+        <p>Nessun risultato trovato per la tua ricerca.</p>
+    </div>
+
+}

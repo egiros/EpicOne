@@ -1,0 +1,75 @@
+﻿
+@using EpicOne.Models
+@model HomeIndexViewModel
+
+
+<!-- Carosello Infinito -->
+
+<div class="bg-dark navbar-transparent position-relative">
+
+    <nav class="navbar bg-transparent d-none d-xl-block position-absolute nav2 w-100" style="z-index: 1000; background-image: linear-gradient(to bottom, rgba(0, 0, 0, 1), transparent)">
+        <div class="container d-flex justify-content-around px-2">
+            @if (Model.CategoriaSelezionata != null && !Model.Eventi.Any())
+            {
+                <p class="fs-1 text-black">Non ci sono eventi per la categoria @Model.CategoriaSelezionata.Nome.</p>
+            }
+            else
+            {
+                foreach (var categoria in Model.Categorie)
+                {
+                    @Html.ActionLink(categoria.Nome, "Index", "Eventi", new { categoriaId = categoria.CategoriaID }, new { @class = "btn btn-outline-dark  border-0 text-light rounded-0 my-1" })
+                }
+            }
+        </div>
+    </nav>
+
+    <div class="overflow-hidden" >
+        <div class="carousel">
+            @foreach (var evento in Model.Eventi)
+            {
+                <div class="logo">
+                    <a href="@Url.Action("Details", "Eventi", new { id = evento.EventoID })">
+                        <div class="image-container">
+                            <img src="@Url.Content(evento.Immagine)" alt="Evento">
+                            <div class="overlay">
+                                <div class="text">
+                                    <h4>@evento.Titolo</h4>
+                                    <p class="text-secondary"><i class="bi bi-geo-alt-fill me-2" alt="Luogo"></i>@evento.Luoghi.Nome - @evento.Luoghi.Indirizzo - @evento.Luoghi.Città</p>
+                                    <p class="text-secondary"><i class="bi bi-calendar-fill me-2" alt="Data e Ora"></i>@evento.DataOra.ToString("dddd, dd/MM/yyyy ore HH:mm")</p>
+                                </div>
+
+                            </div>
+                        </div>
+                    </a>
+                </div>
+            }
+        </div>
+    </div>
+
+
+
+    <div>
+
+        <nav class="navbar">
+            <div class="container d-inline">
+                @using (Html.BeginForm("Search", "Home", FormMethod.Get, new { id = "searchForm" }))
+                {
+                    <div>
+                        <div class="input-group">
+                            @*<h3 class="text-white fw-bold me-5 my-0">Ciao @User.Identity.Name, Benvenuto su EpicOne✨!</h3>*@
+                            <input type="text" class="form-control rounded-0 my-0 ms-auto mw-100" placeholder="Eventi, luoghi o artisti ..." name="searchQuery">
+                            <div class="input-group-append me-auto">
+                                <button class="btn btn-outline-secondary rounded-0" type="submit">Cerca</button>
+                            </div>
+                            <h3 class="text-white fw-bold ms-5 my-0 d-none d-lg-inline">Scopri i migliori eventi nelle tue vicinanze</h3>
+                        </div>
+                    </div>
+                }
+            </div>
+        </nav>
+
+
+
+    </div>
+
+</div>

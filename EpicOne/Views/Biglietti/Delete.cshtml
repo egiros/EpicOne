@@ -1,0 +1,73 @@
+﻿@model EpicOne.Models.Biglietti
+
+@{
+    ViewBag.Title = "Delete";
+}
+
+
+<h2>Elimina</h2>
+
+<h3>Sei davvero sicuro di volerlo eliminare?</h3>
+<div>
+    <h4>Biglietti</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Eventi.Titolo)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Eventi.Titolo)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Utenti.Nome)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Utenti.Nome)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.PrezzoAcquisto)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.PrezzoAcquisto)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.DataOraAcquisto)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.DataOraAcquisto)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Stato)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Stato)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Quantita)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Quantita)
+        </dd>
+
+    </dl>
+
+    @using (Html.BeginForm()) {
+        @Html.AntiForgeryToken()
+
+        <div class="form-actions no-color">
+            <input type="submit" value="Delete" class="btn btn-default" /> |
+            @Html.ActionLink("Back to List", "Index")
+        </div>
+    }
+</div>

@@ -1,0 +1,104 @@
+﻿@model EpicOne.Models.Eventi
+
+@{
+    ViewBag.Title = "Delete";
+}
+
+<h2 class="mb-5 fw-bold" style="margin-top:100px" ;>Elimina Evento</h2>
+
+<h3>Sei davvero sicuro di volerlo eliminare?</h3>
+<div>
+    <h4>Eventi</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Categorie.Nome)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Categorie.Nome)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Luoghi.Nome)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Luoghi.Nome)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Utenti.Nome)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Utenti.Nome)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Titolo)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Titolo)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Descrizione)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Descrizione)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.DataOra)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.DataOra)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.PrezzoBase)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.PrezzoBase)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.QuantitàTotaleBiglietti)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.QuantitàTotaleBiglietti)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.BigliettiRimanenti)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.BigliettiRimanenti)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Immagine)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Immagine)
+        </dd>
+
+    </dl>
+
+    @using (Html.BeginForm()) {
+        @Html.AntiForgeryToken()
+
+        <div class="form-actions no-color">
+            <input type="submit" value="Elimina" class="btn btn-danger" /> |
+            @Html.ActionLink("Indietro", "Index", "", new { @class = "btn btn-outline-warning" })
+        </div>
+    }
+</div>

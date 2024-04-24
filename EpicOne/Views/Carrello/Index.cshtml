@@ -1,0 +1,78 @@
+﻿@model IEnumerable<EpicOne.Models.CartItem>
+
+@using EpicOne.Models
+
+<h2 class="text-center display-5 mb-5 fw-bold" style="margin-top:100px" ;>Carrello</h2>
+
+<div class="container">
+    <div class="row">
+        <div class="col-12 col-md-8 px-2 px-md-4">
+            @foreach (var item in Model)
+            {
+                <div class="row mb-4 bg-white mx-2 shadow rounded-3">
+                    <div class="col-5  shadow rounded-0 rounded-start px-0 text-center">
+                        <img class="rounded-0 rounded-start shadow" src="@item.Evento.Immagine" alt="Poster" style="width:100%; height:100%; object-fit: cover; max-width: none;">
+                    </div>
+
+                    <div class="col-7 shadow d-flex flex-column">
+                        <div>
+                            <h3 class="fs-4 mt-3">@item.QuantitaBiglietti x @item.Evento.Titolo</h3>
+                            <div class="mt-4 d-flex align-items-center">
+                                @Html.ActionLink(item.Evento.PrezzoBase.ToString("F2") + "€ - Rimuovi", "Delete", new { id = item.Evento.EventoID }, new { @class = "shadow btn btn-outline-danger w-100 rounded-pill mb-2" })
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            }
+            <div class="bg-white">@Html.ActionLink("Svuota il Carrello", "CartClear", new { }, new { @class = "shadow btn btn-outline-danger w-100 rounded-pill mb-4" })</div>
+        </div>
+        <div class="col-12 col-md-4 px-4 px-md-0">
+            @using (Html.BeginForm("Ordina", "Carrello", FormMethod.Post))
+            {
+                <div class="row">
+                    <div class="col-12 bg-white shadow rounded-3 mb-3">
+                        <h3 class="fs-4 my-3 fw-bold">EpicOne</h3>
+                        @if (DateTime.Now < new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day, 17, 00, 0) || DateTime.Now > new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day, 23, 0, 0))
+                        {
+                            <p class="text-orange mb-0 pb-0"><span class="fw-bolder">Conferma il tuo ordine entro le • 17.00</span></p>
+                            <p class="text-orange m-0 p-0 mb-2">Lo riceverai in 48h</p>
+                        }
+                        else
+                        {
+                            <p class="text-success mb-0 pb-0"><span class="fw-bolder">Conferma il tuo ordine entro le • 17.00</span></p>
+                            <p class="text-success m-0 p-0 mb-2">Il tuo ordine verra' evaso il prima possibile</p>
+                        }
+                    </div>
+
+                    <div class="col-12 bg-white shadow rounded-3 mb-3">
+                        <div class="input-group my-3">
+                            <span class="input-group-text border-end-0"><i class="bi bi-list"></i></span>
+                            <input class="border-start-0 form-control rounded-0 rounded-end delivery" value="Consegna a domicilio" readonly style="pointer-events: none; cursor: default;">
+                        </div>
+
+                        <div class="input-group my-3">
+                            <span class="input-group-text"><i class="bi bi-geo-alt-fill text-danger"></i></span>
+                            <input placeholder="Il tuo Indirizzo" type="text" class="bg-white form-control rounded-0 rounded-end" id="indirizzo" name="indirizzo" required>
+                        </div>
+
+                    </div>
+
+                    <div class="col-12 bg-white shadow rounded-3 mb-5">
+                        <h3 class="fs-4 my-3 fw-bolder">Riepilogo ordine</h3>
+                        @foreach (var item in Model)
+                        {
+                            <p>@item.QuantitaBiglietti x @item.Evento.Titolo - @item.Evento.PrezzoBase.ToString("F2")€</p>
+                        }
+                    <p>Spedizione con Corriere GLS - 8,00€</p>
+
+                        <textarea placeholder="Note aggiuntive sul tuo ordine..." id="Note" name="note" required class="form-control bg-white rounded-3" rows="3" style="resize: none;"></textarea>
+
+                        <p class="m-0 p-0 mt-3 mb-2"><span class="fw-bold">Consegna stimata: </span>24/48h (Isole escluse)</p>
+                        <p><span class="fw-bold">Totale: </span>@string.Format("{0:F2}", Model.Sum(item => item.Evento.PrezzoBase * item.QuantitaBiglietti + 8)) €</p>
+                        <input type="submit" class="btn btn-success menu-button w-100 p-2 mb-3" value="Conferma" />
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+</div>

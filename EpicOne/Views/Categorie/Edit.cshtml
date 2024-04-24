@@ -1,0 +1,48 @@
+﻿@model EpicOne.Models.Categorie
+
+@{
+    ViewBag.Title = "Edit";
+}
+
+<h2 class="text-center display-4 mb-5 fw-bold" style="margin-top:100px" ;>Modifica Categoria</h2>
+
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+    
+    <div class="form-horizontal">
+        <h4>Categorie</h4>
+        <hr />
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        @Html.HiddenFor(model => model.CategoriaID)
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Nome, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Nome, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Nome, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Descrizione, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Descrizione, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Descrizione, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10 my-3">
+                <input type="submit" value="Salva Modifiche" class="btn btn-success" />
+                @Html.ActionLink("Indietro", "Index", "", new { @class = "btn btn-warning ms-3" })
+            </div>
+        </div>
+    </div>
+}
+
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

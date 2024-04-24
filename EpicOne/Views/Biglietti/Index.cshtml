@@ -1,0 +1,82 @@
+﻿@model IEnumerable<EpicOne.Models.Biglietti>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2 class="text-center display-4 mb-5 fw-bold" style="margin-top:100px" ;>I Tuoi Biglietti</h2>
+
+<hr class="my-5" />
+
+<div class="container">
+    @foreach (var item in Model)
+    {
+        <div class="d-flex justify-content-between align-items-center">
+            <h4 class="fw-bolder">Numero Ordine: @item.EventoID@item.BigliettoID@item.DataOraAcquisto.ToString("yyyyMMdd")</h4>
+
+            <div>
+
+                @Html.ActionLink("Visualizza", "Biglietto", new { id = item.BigliettoID }, new { @class = "btn btn-warning p-2 me-3 d-none d-md-inline" })
+                @*<a href="@Url.Action("DownloadPDF", "Biglietti", new { id = item.BigliettoID })" class="btn btn-warning">Scarica PDF</a>*@
+                <button onclick="printTicket('@Url.Action("Biglietto", "Biglietti", new { id = item.BigliettoID })')" class="btn btn-warning">Stampa</button>
+            </div>
+
+
+
+        </div>
+
+        <hr class="my-3" style="border-top: 3px dashed #000000;" />
+
+        for (int i = 0; i < item.Quantita; i++)
+        {
+
+
+            <div class="my-3">
+                <div class="card shadow mb-4">
+                    <div class="bg-dark">
+                        <h4 class="text-white fw-bold text-center">EpicOne✨ - TICKET</h4>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-4 align-content-center">
+                            <img src="@item.Eventi.Immagine" class="img-fluid w-100 d-none d-md-block p-3" />
+                        </div>
+                        <div class="col-md-8 align-content-center">
+                            <div class="card-body p-3">
+                                <h3 class="card-title text-truncate">@Html.DisplayFor(modelItem => item.Eventi.Titolo)</h3>
+                                <p class="card-text text-truncate">
+                                    <strong><i class="bi bi-geo-alt-fill me-2"></i></strong> @item.Eventi.Luoghi.Nome - @item.Eventi.Luoghi.Indirizzo - @item.Eventi.Luoghi.Città<br />
+                                    <strong><i class="bi bi-calendar-fill me-2"></i></strong> @item.Eventi.DataOra.ToString("dddd dd/MM/yyyy ore HH:mm")<br />
+                                    <h4 class="fw-bod my-3">Nominativo: @item.Utenti.Nome @item.Utenti.Cognome</h4>
+                                    <strong>Prezzo:</strong> € @Html.DisplayFor(modelItem => item.PrezzoAcquisto)<br />
+                                    <strong>Data Acquisto:</strong> @item.DataOraAcquisto.ToString("dd/MM/yyyy")<br />
+                                    @*<strong>Quantità:</strong> @Html.DisplayFor(modelItem => item.Quantita)<br />*@
+                                    <strong>Codice Biglietto:</strong> @item.EventoID@item.Eventi.LuogoID@item.UserID@item.BigliettoID - 00@((i+1).ToString())
+                                </p>
+                                @if (User.IsInRole("Admin"))
+                                {
+                                    @Html.ActionLink("Elimina", "Delete", new { id = item.BigliettoID }, new { @class = "btn btn-danger" })
+                                }
+                            </div>
+                        </div>
+                    </div>
+                    <div class="bg-dark">
+                        <h5 class="text-white text-center"> - Tutti i diritti riservati - </h5>
+                    </div>
+                </div>
+            </div>
+
+            <hr class="my-3" style="border-top: 3px dashed #000000;" />
+        }
+        <hr class="my-5" />
+    }
+</div>
+
+
+<script>
+    function printTicket(url) {
+        var win = window.open(url, '_blank');
+        win.onload = function () {
+            win.print();
+        }
+    }
+</script>

@@ -1,0 +1,192 @@
+﻿@model EpicOne.Models.Eventi
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2 class="text-center display-4 mb-5 fw-bold" style="margin-top:100px" ;> </h2>
+
+<div class="row d-flex my-5">
+
+    <div class="col-md-4">
+        <img src="@Model.Immagine" alt="Immagine evento" class="img-fluid w-100 rounded shadow" />
+    </div>
+
+    <div class="col-md-8">
+        <div class="mt-3">
+
+            <h3 class="fw-bolder fs-2 mb-3"><b>@Html.DisplayFor(model => model.Titolo)</b></h3>
+
+            <hr class="my-3" />
+
+            <p class="text-secondary"><i class="bi bi-geo-alt-fill me-2" alt="Luogo"></i>@Html.DisplayFor(model => model.Luoghi.Nome) - @Html.DisplayFor(model => model.Luoghi.Indirizzo) - @Html.DisplayFor(model => model.Luoghi.Città)</p>
+            <p class="text-secondary"><i class="bi bi-calendar-fill me-2" alt="Data e Ora"></i>@Model.DataOra.ToString("dddd, dd/MM/yyyy alle ore HH:mm")</p>
+
+            <hr class="my-4" />
+
+            <h4 class="fw-bold text-capitalize fs-3">@Model.DataOra.ToString("dddd dd MMMM yyyy")</h4>
+            <h4 class="fw-bold fs-3">Ore @Model.DataOra.ToString("HH:mm")</h4>
+            <p class="mt-5"><b>Categoria</b>: @Html.DisplayFor(model => model.Categorie.Nome)</p>
+            <p><b>Prezzo</b>:  €@Html.DisplayFor(model => model.PrezzoBase)</p>
+
+
+
+
+            @{
+                var percentualePosti = Model.BigliettiRimanenti / (double)Model.QuantitàTotaleBiglietti * 100;
+                string messaggioPosti = "Posti Disponibili";
+                string classeCSS = "text-success"; // Verde per "disponibili"
+
+                if (percentualePosti == 0)
+                {
+                    messaggioPosti = "Posti Esauriti!";
+                    classeCSS = "text-danger"; // Rosso per "esauriti"
+                }
+                else if (percentualePosti < 10)
+                {
+                    messaggioPosti = "Posti in Esaurimento!";
+                    classeCSS = "text-warning"; // Arancione/Giallo per "limitati"
+                }
+            }
+
+            @if (Model.DataOra > DateTime.Now && percentualePosti > 0)
+            {
+
+                <p class="@classeCSS fw-bold"><b>@messaggioPosti</b></p>
+
+
+
+                <div>
+                    @using (Html.BeginForm("AddToCart", "Eventi", FormMethod.Post))
+                    {
+                        @Html.AntiForgeryToken()
+                        <input type="hidden" name="id" value="@Model.EventoID" />
+                        <div class="d-flex align-items-center">
+                            <input id="Quantita" type="number" name="quantita" value="1" min="1" max="10" class="shadow form-control me-2" style="width: auto;">
+                            @*<input type="submit" value="@Model.PrezzoBase - Carrello" class="btn btn-success shadow w-75 me-3">*@
+                            <button type="submit" class="btn btn-success shadow me-3">
+                                <i class="bi bi-bag-plus-fill fs-5"></i> - Aggiungi al Carrello
+                            </button>
+                        </div>
+
+                        if (User.IsInRole("Admin"))
+                        {
+                            <div>
+                                @Html.ActionLink("Modifica", "Edit", new { id = Model.EventoID }, new { @class = "btn btn-warning shadow my-3 me-3" })
+                                @Html.ActionLink("Elimina", "Delete", new { id = Model.EventoID }, new { @class = "btn btn-danger shadow my-3" })
+                                <p><b>Organizzatore</b>: @Html.DisplayFor(model => model.Utenti.Nome)</p>
+                                <p><b>Biglietti Totali</b>: @Html.DisplayFor(model => model.QuantitàTotaleBiglietti)</p>
+                                <p><b>Posti Liberi</b>: @Html.DisplayFor(model => model.BigliettiRimanenti)</p>
+                            </div>
+                        }
+
+                        <div>
+                            @Html.ActionLink("Indietro", "Index", null, new { @class = "btn btn-outline-warning shadow w-75 my-3" })
+                        </div>
+
+                    }
+
+                </div>
+            }
+            else if (Model.DataOra <= DateTime.Now)
+            {
+                // Se l'evento è nel passato, mostra il messaggio "Evento scaduto"
+                <p class="text-danger fw-bold">Evento scaduto, Non Acquistabile</p>
+                if (User.IsInRole("Admin"))
+                {
+                    <div>
+                        @Html.ActionLink("Modifica", "Edit", new { id = Model.EventoID }, new { @class = "btn btn-warning shadow my-3 me-3" })
+                        @Html.ActionLink("Elimina", "Delete", new { id = Model.EventoID }, new { @class = "btn btn-danger shadow my-3" })
+                        <p><b>Organizzatore</b>: @Html.DisplayFor(model => model.Utenti.Nome)</p>
+                    </div>
+                }
+            }
+            else if (percentualePosti == 0)
+            {
+                // Se non ci sono posti disponibili, mostra il messaggio "Posti esauriti"
+                <p class="text-danger fw-bold">Posti esauriti, Non Acquistabile</p>
+                if (User.IsInRole("Admin"))
+                {
+                    <div>
+                        @Html.ActionLink("Modifica", "Edit", new { id = Model.EventoID }, new { @class = "btn btn-warning shadow my-3 me-3" })
+                        @Html.ActionLink("Elimina", "Delete", new { id = Model.EventoID }, new { @class = "btn btn-danger shadow my-3" })
+                        <p><b>Organizzatore</b>: @Html.DisplayFor(model => model.Utenti.Nome)</p>
+                    </div>
+                }
+            }
+
+        </div>
+    </div>
+
+
+
+</div>
+
+<hr class="mb-5" />
+
+<div class="row align-items-center">
+    <div class="col-md-2 mx-auto d-flex justify-content-between"><p class="fw-bold fs-4"><b>Descrizione</b></p><i class="bi bi-caret-right-square-fill fs-4"></i></div>
+    <div class="col-md-8"><p id="testo">@Html.DisplayFor(model => model.Descrizione)</p></div>
+</div>
+
+<hr class="mb-5" />
+
+<div class="row align-items-center">
+    <div class=" col-md-2 mx-auto d-flex justify-content-between"><p class="fw-bold fs-4"><b>Luogo</b></p><i class="bi bi-caret-right-square-fill fs-4"></i></div>
+
+    <div class="col-md-8 mb-3" >
+        <p class="fs-5 mb-3">@Model.Luoghi.Nome - @Model.Luoghi.Indirizzo - @Model.Luoghi.Città</p>
+        <div id="map" style="height: 400px" ;></div>
+    </div>
+</div>
+
+
+@if (User.IsInRole("Admin"))
+{
+<hr class="mb-5" />
+
+<div class="row align-items-center">
+    <div class="col-md-2 mx-auto d-flex justify-content-between"><p class="fw-bold fs-4"><b>Organizzatore</b></p><i class="bi bi-caret-right-square-fill fs-4"></i></div>
+
+    <div class="col-md-8 mb-3">
+        <p class="fs-3 my-5">@Model.Utenti.Nome</p>
+    </div>
+</div>
+}
+
+
+
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        var elem = document.getElementById('testo');
+        if (elem) {
+            var text = elem.textContent;
+            // Sostituisci ogni '. ' con '.<br>' per andare a capo dopo ogni punto
+            elem.innerHTML = text.replace(/\. /g, '.<br>').replace(/\n/g, '<br>');
+        }
+    });
+</script>
+
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyC7ZAa11XBmg1IWwl_cLVKHuvxLFuuKaoI&callback=initMap&libraries=&v=weekly" async defer></script>
+
+<script>
+function initMap() {
+    var address = '@Model.Luoghi.Indirizzo' + ', ' + '@Model.Luoghi.Città';
+    var map = new google.maps.Map(document.getElementById('map'), {
+        zoom: 15, // Zoom adeguato per vedere il dettaglio di un edificio
+        center: {lat: -34.397, lng: 150.644} // Coordinata di fallback
+    });
+    var geocoder = new google.maps.Geocoder();
+    geocoder.geocode({ 'address': address }, function(results, status) {
+        if (status === 'OK') {
+            map.setCenter(results[0].geometry.location);
+            var marker = new google.maps.Marker({
+                map: map,
+                position: results[0].geometry.location
+            });
+        } else {
+            alert('Geocode non è riuscito per il seguente motivo: ' + status);
+        }
+    });
+}
+</script>

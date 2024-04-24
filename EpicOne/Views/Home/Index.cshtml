@@ -1,0 +1,229 @@
+﻿@using EpicOne.Models
+@model HomeIndexViewModel
+
+@{
+    ViewBag.Title = "Home Page";
+}
+
+
+
+<main>
+
+    @Html.Partial("_Navbar", Model)
+
+
+    <div>
+
+        <div class="modal" tabindex="-1" id="searchResultsModal">
+            <div class="modal-dialog modal-dialog-centered modal-lg modal-fullscreen-sm-down">
+                <div class="modal-content">
+                    <div class="modal-header flex-column-reverse">
+                        <!-- Campo di ricerca -->
+                        @using (Html.BeginForm("Search", "Home", FormMethod.Get, new { id = "searchFormModal" }))
+                        {
+                            <div>
+                                <div class="input-group my-4">
+                                    <input type="text" class="form-control rounded-0 my-0 ms-auto mw-100" placeholder="Eventi, luoghi o artisti ..." name="searchQuery">
+                                    <div class="input-group-append me-auto">
+                                        <button class="btn btn-dark rounded-0" type="submit">Cerca</button>
+                                    </div>
+                                </div>
+                            </div>
+                        }
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <div id="searchResults">
+                            <!-- Risultati ricerca -->
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-dark rounded-0" data-bs-dismiss="modal">Chiudi</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+
+
+
+        <div class="my-5">
+            <h2 class="fw-bold mb-0">Eventi in primo piano</h2>
+
+            @Html.Action("DefaultEvents", "Home")
+
+            <div class="text-center">
+                @Html.ActionLink("Mostra tutti gli eventi", "Index", "Eventi", null, new { @class = "btn btn-dark" })
+            </div>
+
+        </div>
+
+
+
+        <div class="my-5">
+            <h2 class="fw-bold mt-5 mb-3">Principali Categorie</h2>
+
+            @Html.Action("EventiPerCategoria", "Home")
+
+            <div class="text-center">
+                @Html.ActionLink("Mostra tutti le categorie", "Index", "Categorie", null, new { @class = "btn btn-dark" })
+            </div>
+
+        </div>
+
+
+
+
+
+
+        <section class="my-3">
+            <div class="row g-2">
+                <div class="col-md-3">
+                    <a href="#"><img src="https://www.ticketone.it/obj/media/IT-eventim/teaser/evo/typo/typo_teaser_Carte-cultura.jpg" alt="Carte Cultura" class="w-100 rounded shadow" /></a>
+                </div>
+                <div class="col-md-3">
+                    <a href="#"><img src="https://www.ticketone.it/obj/media/IT-eventim/teaser/evo/typo/typo_teaser_APP18.jpg" alt="Bonus Cultura" class="w-100 rounded shadow" /></a>
+                </div>
+                <div class="col-md-3">
+                    <a href="#"><img src="https://www.ticketone.it/obj/media/IT-eventim/teaser/evo/typo/typo_teaser_CDD.jpg" alt="Carta del Docente" class="w-100 rounded shadow" /></a>
+                </div>
+                <div class="col-md-3">
+                    <a href="#"><img src="https://www.ticketone.it/obj/media/IT-eventim/teaser/evo/typo/gift-personalizzata_typo_teaser.gif" alt="Voucher Personalizzato" class="w-100 rounded shadow" /></a>
+                </div>
+            </div>
+            <div class="row g-2 mt-3">
+                <div class="col-md-6">
+                    <a href="#"><img src="https://www.ticketone.it/obj/media/IT-eventim/teaser/evo/additional-content/AddCont_voucher_FAQ_2023_v2.svg" alt="Voucher Covid-19-1" class="w-100 rounded shadow" /></a>
+                </div>
+                <div class="col-md-6">
+                    <a href="#"><img src="https://www.ticketone.it/obj/media/IT-eventim/teaser/evo/additional-content/AddCont_voucher_spendi_2023_v2.svg" alt="Voucher Covid-19-2" class="w-100 rounded shadow" /></a>
+                </div>
+            </div>
+            <div class="row g-2 mt-3 mb-3">
+                <div class="col-md-3">
+                    <a href="#"><img src="https://www.ticketone.it/obj/media/IT-eventim/teaser/evo/typo/typoteaser-arena-opera-festival-3.jpg" alt="Opera" class="w-100 rounded shadow" /></a>
+                </div>
+                <div class="col-md-3">
+                    <a href="#"><img src="https://www.ticketone.it/obj/media/IT-eventim/teaser/evo/typo/typoteaser-santacecilia.jpg" alt="Accademia" class="w-100 rounded shadow" /></a>
+                </div>
+                <div class="col-md-3">
+                    <a href="#"><img src="https://www.ticketone.it/obj/media/IT-eventim/teaser/evo/typo/typoteaser-operaroma-2021.jpg" alt="Teatro" class="w-100 rounded shadow" /></a>
+                </div>
+                <div class="col-md-3">
+                    <a href="#"><img src="https://www.ticketone.it/obj/media/IT-eventim/teaser/evo/typo/APDM-2023.gif" alt="Auditorium" class="w-100 rounded shadow" /></a>
+                </div>
+            </div>
+        </section>
+    </div>
+
+</main>
+
+
+
+@section scripts {
+    <script>
+        $('#searchForm, #searchFormModal').on('submit', function (e) {
+            e.preventDefault();
+
+            $.ajax({
+                url: '/Home/Search',
+                type: 'GET',
+                data: $(this).serialize(),
+                success: function (data) {
+                    $('#searchResults').html(data);
+                    $('#searchResultsModal').modal('show');
+                }
+            });
+        });
+
+    </script>
+
+    <script>
+        $(document).ready(function () {
+            $("#eventi-title").hide();
+            $("#eventi-btn").hide();
+            $("#Cat-btn").hide();
+        });
+    </script>
+
+    @* ------------------------------ TOASTS --------------------------------- *@
+
+    @if (TempData["LoginMessage"] != null)
+    {
+        <script src="~/Scripts/jquery-3.4.1.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/js/toastr.min.js"></script>
+        <script type="text/javascript">
+  toastr.options = {
+      "closeButton": true,
+      "debug": false,
+      "newestOnTop": false,
+      "progressBar": true,
+      "positionClass": "toast-custom-position",
+      "preventDuplicates": false,
+      "onclick": null,
+      "showDuration": "300",
+      "hideDuration": "1000",
+      "timeOut": "5000",
+      "extendedTimeOut": "1000",
+      "showEasing": "swing",
+      "hideEasing": "linear",
+      "showMethod": "fadeIn",
+      "hideMethod": "fadeOut"
+  }
+  toastr.success('@TempData["LoginMessage"]')
+        </script>
+    }
+
+    @if (TempData["RegisterMessage"] != null)
+    {
+        <script src="~/Scripts/jquery-3.4.1.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/js/toastr.min.js"></script>
+        <script type="text/javascript">
+  toastr.options = {
+      "closeButton": true,
+      "debug": false,
+      "newestOnTop": false,
+      "progressBar": true,
+      "positionClass": "toast-custom-position",
+      "preventDuplicates": false,
+      "onclick": null,
+      "showDuration": "300",
+      "hideDuration": "1000",
+      "timeOut": "5000",
+      "extendedTimeOut": "1000",
+      "showEasing": "swing",
+      "hideEasing": "linear",
+      "showMethod": "fadeIn",
+      "hideMethod": "fadeOut"
+  }
+  toastr.success('@TempData["RegisterMessage"]')
+        </script>
+    }
+
+    @if (TempData["CartMessage"] != null)
+    {
+        <script src="~/Scripts/jquery-3.4.1.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/js/toastr.min.js"></script>
+        <script type="text/javascript">
+  toastr.options = {
+      "closeButton": true,
+      "debug": false,
+      "newestOnTop": false,
+      "progressBar": true,
+      "positionClass": "toast-custom-position",
+      "preventDuplicates": false,
+      "onclick": null,
+      "showDuration": "300",
+      "hideDuration": "1000",
+      "timeOut": "5000",
+      "extendedTimeOut": "1000",
+      "showEasing": "swing",
+      "hideEasing": "linear",
+      "showMethod": "fadeIn",
+      "hideMethod": "fadeOut"
+  }
+  toastr.warning('@TempData["CartMessage"]')
+        </script>
+    }
+}
