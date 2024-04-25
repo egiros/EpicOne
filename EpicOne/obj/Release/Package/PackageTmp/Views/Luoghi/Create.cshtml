@@ -1,0 +1,73 @@
+﻿@model EpicOne.Models.Luoghi
+
+@{
+    ViewBag.Title = "Create";
+}
+
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+
+
+    <div class="container-fluid my-5">
+        <div class="card shadow pb-5">
+            <div class="row justify-content-center">
+                <div class="col-md-6 text-center">
+
+                    <div class="form-horizontal">
+                        <h2 class="mb-5 fw-bold" style="margin-top:100px" ;>Aggiungi Nuovo Luogo</h2>
+                        <hr />
+                        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                        <div class="form-group mb-3">
+                            @Html.LabelFor(model => model.Nome, htmlAttributes: new { @class = "control-label col" })
+                            <div class="col">
+                                @Html.EditorFor(model => model.Nome, new { htmlAttributes = new { @class = "form-control mx-auto" } })
+                                @Html.ValidationMessageFor(model => model.Nome, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+
+                        <div class="form-group mb-3">
+                            @Html.LabelFor(model => model.Indirizzo, htmlAttributes: new { @class = "control-label col" })
+                            <div class="col">
+                                @Html.EditorFor(model => model.Indirizzo, new { htmlAttributes = new { @class = "form-control mx-auto" } })
+                                @Html.ValidationMessageFor(model => model.Indirizzo, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+
+                        <div class="form-group mb-3">
+                            @Html.LabelFor(model => model.Città, htmlAttributes: new { @class = "control-label col" })
+                            <div class="col">
+                                @Html.EditorFor(model => model.Città, new { htmlAttributes = new { @class = "form-control mx-auto" } })
+                                @Html.ValidationMessageFor(model => model.Città, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+
+                        <div class="form-group mb-3">
+                            @Html.LabelFor(model => model.Capacità, htmlAttributes: new { @class = "control-label col" })
+                            <div class="col">
+                                @Html.EditorFor(model => model.Capacità, new { htmlAttributes = new { @class = "form-control mx-auto" } })
+                                @Html.ValidationMessageFor(model => model.Capacità, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+
+                        <div class="form-group mb-3">
+                            <div class="col mx-auto">
+                                <input type="submit" value="Aggiungi" class="btn btn-outline-warning my-3" />
+                                @Html.ActionLink("Indietro", "Index", "", new { @class = "btn btn-warning ms-3" })
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+}
+
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

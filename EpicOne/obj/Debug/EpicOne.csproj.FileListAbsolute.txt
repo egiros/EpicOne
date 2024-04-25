@@ -1,5 +1,3 @@
-C:\Users\egidio\Desktop\GitHub\EpicOne\EpicOne\obj\Debug\EpicOne.csproj.AssemblyReference.cache
-C:\Users\egidio\Desktop\GitHub\EpicOne\EpicOne\obj\Debug\EpicOne.csproj.CoreCompileInputs.cache
 C:\Users\egidio\Desktop\GitHub\EpicOne\EpicOne\bin\EpicOne.dll.config
 C:\Users\egidio\Desktop\GitHub\EpicOne\EpicOne\bin\EpicOne.dll
 C:\Users\egidio\Desktop\GitHub\EpicOne\EpicOne\bin\EpicOne.pdb
@@ -58,6 +56,7 @@ C:\Users\egidio\Desktop\GitHub\EpicOne\EpicOne\bin\EntityFramework.SqlServer.dll
 C:\Users\egidio\Desktop\GitHub\EpicOne\EpicOne\bin\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.dll
 C:\Users\egidio\Desktop\GitHub\EpicOne\EpicOne\bin\Microsoft.Web.Infrastructure.dll
 C:\Users\egidio\Desktop\GitHub\EpicOne\EpicOne\bin\Newtonsoft.Json.dll
+C:\Users\egidio\Desktop\GitHub\EpicOne\EpicOne\bin\Rotativa.dll
 C:\Users\egidio\Desktop\GitHub\EpicOne\EpicOne\bin\System.Web.Helpers.dll
 C:\Users\egidio\Desktop\GitHub\EpicOne\EpicOne\bin\System.Web.Mvc.dll
 C:\Users\egidio\Desktop\GitHub\EpicOne\EpicOne\bin\System.Web.Optimization.dll
@@ -85,7 +84,8 @@ C:\Users\egidio\Desktop\GitHub\EpicOne\EpicOne\bin\it\System.Web.Razor.resources
 C:\Users\egidio\Desktop\GitHub\EpicOne\EpicOne\bin\it\System.Web.WebPages.resources.dll
 C:\Users\egidio\Desktop\GitHub\EpicOne\EpicOne\bin\it\System.Web.WebPages.Deployment.resources.dll
 C:\Users\egidio\Desktop\GitHub\EpicOne\EpicOne\bin\it\System.Web.WebPages.Razor.resources.dll
+C:\Users\egidio\Desktop\GitHub\EpicOne\EpicOne\obj\Debug\EpicOne.csproj.AssemblyReference.cache
+C:\Users\egidio\Desktop\GitHub\EpicOne\EpicOne\obj\Debug\EpicOne.csproj.CoreCompileInputs.cache
 C:\Users\egidio\Desktop\GitHub\EpicOne\EpicOne\obj\Debug\EpicOne.csproj.CopyComplete
 C:\Users\egidio\Desktop\GitHub\EpicOne\EpicOne\obj\Debug\EpicOne.dll
 C:\Users\egidio\Desktop\GitHub\EpicOne\EpicOne\obj\Debug\EpicOne.pdb
-C:\Users\egidio\Desktop\GitHub\EpicOne\EpicOne\bin\Rotativa.dll

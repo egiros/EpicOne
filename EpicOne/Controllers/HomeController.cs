@@ -33,6 +33,8 @@ namespace EpicOne.Controllers
                     .ToList()
                 };
 
+                ViewBag.NavbarModel = model;
+
                 if (categoriaId.HasValue)
                 {
                     model.Eventi = db.Eventi
@@ -60,6 +62,7 @@ namespace EpicOne.Controllers
 
                 return View(model);
             }
+
         }
 
 

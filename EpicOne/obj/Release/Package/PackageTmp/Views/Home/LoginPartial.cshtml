@@ -1,0 +1,68 @@
+﻿
+@model EpicOne.Models.Utenti
+
+@{
+    ViewBag.Title = "LoginPartial";
+}
+
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+    <div class="container-fluid my-5">
+        <div><p class="text-danger">Hello world</p></div>
+        <div class="card shadow pb-5">
+            <img class="img-fluid shadow rounded mb-5" src="~/Content/Img/signin-bg.jpg" />
+            <div class="row justify-content-center">
+                <div class="col-md-6 text-center">
+                    <div class="form-horizontal mx-3">
+                        <h4 class="fw-bold">Accedi o Registrati</h4>
+                        <hr />
+                        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+                        <div class="form-group my-2">
+                            @Html.LabelFor(model => model.Email, htmlAttributes: new { @class = "control-label col-md-4" })
+                            <div class="col-md-12">
+                                @Html.EditorFor(model => model.Email, new { htmlAttributes = new { @class = "form-control mx-auto" } })
+                                @Html.ValidationMessageFor(model => model.Email, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+
+                        <div class="form-group my-2">
+                            @Html.LabelFor(model => model.Password, htmlAttributes: new { @class = "control-label col-md-4" })
+                            <div class="col-12">
+                                @Html.EditorFor(model => model.Password, new { htmlAttributes = new { @class = "form-control mx-auto" } })
+                                @Html.ValidationMessageFor(model => model.Password, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <div class="mt-4 mb-5">
+                                <input type="submit" value="Accedi" class="btn btn-outline-warning w-100 shadow" />
+                            </div>
+                            <hr />
+                            <div class="mt-5">
+                                <h4>Sei un nuovo utente? <br />@Html.ActionLink("Clicca qui per registrarti gratuitamente", "Register", null, new { @class = "fw-bold text-warning text-decoration-none" })</h4>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}
+
+@if (TempData["Message"] != null)
+{
+    <script src="~/Scripts/jquery-3.4.1.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/js/toastr.min.js"></script>
+    <script type="text/javascript">
+                    toastr.success('@TempData["Message"]');
+    </script>
+
+}

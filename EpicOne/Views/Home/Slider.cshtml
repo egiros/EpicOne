@@ -1,0 +1,52 @@
+﻿@{
+    ViewBag.Title = "Slider";
+}
+
+@using EpicOne.Models
+@model HomeIndexViewModel
+
+<!-- Includi i file CSS di Swiper -->
+<link rel="stylesheet" href="https://unpkg.com/swiper/swiper-bundle.min.css" />
+
+<div class="overflow-hidden">
+    <div class="carousel">
+        @foreach (var evento in Model.Eventi)
+        {
+            <div class="logo">
+                <a href="@Url.Action("Details", "Eventi", new { id = evento.EventoID })">
+                    <div class="image-container">
+                        <img src="@Url.Content(evento.Immagine)" alt="Evento">
+                        <div class="overlay">
+                            <div class="text">
+                                <h4>@evento.Titolo</h4>
+                                <p class="text-secondary"><i class="bi bi-geo-alt-fill me-2" alt="Luogo"></i>@evento.Luoghi.Nome - @evento.Luoghi.Indirizzo - @evento.Luoghi.Città</p>
+                                <p class="text-secondary"><i class="bi bi-calendar-fill me-2" alt="Data e Ora"></i>@evento.DataOra.ToString("dddd, dd/MM/yyyy ore HH:mm")</p>
+                            </div>
+                        </div>
+                    </div>
+                </a>
+            </div>
+        }
+    </div>
+</div>
+
+<!-- Includi il file JS di Swiper e inizializza il carosello -->
+<script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>
+<script>
+    var swiper = new Swiper('.swiper-container', {
+        slidesPerView: 3,
+        spaceBetween: 30,
+        navigation: {
+            nextEl: '.swiper-button-next',
+            prevEl: '.swiper-button-prev',
+        },
+        pagination: {
+            el: '.swiper-pagination',
+            clickable: true,
+        },
+        autoplay: {
+            delay: 2500,
+            disableOnInteraction: false,
+        },
+    });
+</script>
