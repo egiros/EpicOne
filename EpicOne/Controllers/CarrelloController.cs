@@ -18,12 +18,17 @@ namespace EpicOne.Controllers
         // Se il carrello è vuoto, reindirizza alla pagina dei prodotti con un messaggio
         public ActionResult Index()
         {
+            var user = db.Utenti.FirstOrDefault(u => u.Email == User.Identity.Name);
             var cart = Session["cart"] as List<CartItem>;
             if (cart == null || !cart.Any())
             {
                 TempData["CartMessage"] = "Il carrello è vuoto";
                 return RedirectToAction("Index", "Eventi");
             }
+
+            ViewBag.Indirizzo = user.Indirizzo;
+            ViewBag.CodicePostale = user.CodicePostale;
+            ViewBag.Città = user.Città;
 
             return View(cart);
         }
